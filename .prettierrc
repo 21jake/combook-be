@@ -1,0 +1,8 @@
+{
+    "singleQuote": true,
+    "printWidth": 90,
+    "proseWrap": "preserve",
+    "trailingComma": "es5",
+    "useTabs": false,
+    "bracketSpacing": true
+}
