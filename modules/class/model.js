@@ -9,9 +9,9 @@ const classSchema = new mongoose.Schema({
   name: {
     type: String,
     validate: {
-      validator: function (value) {
+      validator: function(value) {
         // Only when creating a new document
-        const regex = /[1][0-2][ABC]/g;
+        const regex = /[0-1][0-9][ABC]/g;
         return regex.test(value);
       },
       message: 'Invalid name for class',
@@ -22,7 +22,7 @@ const classSchema = new mongoose.Schema({
 
 // TODO: Do not allow dupicative name for class
 
-classSchema.pre(/^find/, function (next) {
+classSchema.pre(/^find/, function(next) {
   this.populate({
     path: 'grade',
     select: 'name',

@@ -11,6 +11,7 @@ const {
   updateInfo,
   deactivate,
   logout,
+  verify,
 } = require('./authentication');
 
 const { getEntities, removeEntity, getEntity } = require('./controller');
@@ -18,7 +19,7 @@ const { bindUserIdToReqParams } = require('./middlewares');
 
 // Only admin can create new account
 router.post('/sign-up', authenticate, checkRoles('admin'), signUp);
-
+router.get('/verify', authenticate, verify);
 router.post('/login', login);
 router.get('/logout', authenticate, logout);
 router.post('/forgot-password', forgotPassword);
