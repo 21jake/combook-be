@@ -8,7 +8,14 @@ const {
   removeEntity,
 } = require('./controller');
 
-router.route('/').get(getEntities).post(createEntity);
-router.route('/:_id').get(getEntity).delete(removeEntity).patch(updateEntity);
+router
+  .route('/')
+  .get(getEntities)
+  .post(createEntity);
+router
+  .route('/:_id')
+  .get(getEntity)
+  .delete(removeEntity)
+  .patch(updateEntity);
 
 module.exports = router;
