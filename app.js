@@ -15,6 +15,7 @@ const AppError = require('./utils/appError');
 const gradeRouter = require('./modules/grade/routes');
 const classRouter = require('./modules/class/routes');
 const userRouter = require('./modules/user/routes');
+const dummyRouter = require('./modules/dummy/routes');
 
 const app = express();
 
@@ -88,6 +89,7 @@ const prefix = `/api/v1`;
 app.use(`${prefix}/grades`, gradeRouter);
 app.use(`${prefix}/classes`, classRouter);
 app.use(`${prefix}/users`, userRouter);
+app.use(`${prefix}/dummy`, dummyRouter);
 
 // UNHANDLED ROUTE
 app.all(`*`, (req, res, next) => {
