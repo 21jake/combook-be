@@ -16,6 +16,7 @@ const gradeRouter = require('./modules/grade/routes');
 const classRouter = require('./modules/class/routes');
 const userRouter = require('./modules/user/routes');
 const semesterRouter = require('./modules/semester/routers');
+const tuitionRouter = require('./modules/tuition/router')
 
 const app = express();
 
@@ -90,6 +91,7 @@ app.use(`${prefix}/grades`, gradeRouter);
 app.use(`${prefix}/classes`, classRouter);
 app.use(`${prefix}/users`, userRouter);
 app.use(`${prefix}/semesters`, semesterRouter);
+app.use(`${prefix}/tuitions`, tuitionRouter);
 
 // UNHANDLED ROUTE
 app.all(`*`, (req, res, next) => {

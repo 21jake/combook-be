@@ -1,10 +1,13 @@
 const mongoose = require('mongoose');
 
-const semesterSchedule = new mongoose.Schema({
+const semesterSchema = new mongoose.Schema({
   name: {
     type: String,
-    enum: {
-      values: ['Kì 1,Kì 2'],
+    validate: {
+      validator: function(value) {
+        const regex = /^Học Kỳ? [0-6]/gm;
+        return regex.test(value);
+      },
     },
     required: [true, 'name field is required'],
   },
@@ -14,6 +17,12 @@ const semesterSchedule = new mongoose.Schema({
   },
 });
 
-const Semester = mongoose.model('Semester', semesterSchedule);
+semesterSchema.virtual('tuitions', {
+  ref: 'Tuition',
+  foreignField: 'semester',
+  localField: '_id',
+});
+
+const Semester = mongoose.model('Semester', semesterSchema);
 
 module.exports = Semester;
