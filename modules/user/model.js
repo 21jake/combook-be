@@ -50,6 +50,12 @@ const userSchema = new mongoose.Schema(
   }
 );
 
+userSchema.virtual('tuitions', {
+  ref: 'Tuition',
+  foreignField: 'user',
+  localField: '_id',
+});
+
 // ONLY WORKS ON CREATE() AND SAVE()
 // IF UPDATE, USE SAVE()
 function confirmPasswordValidator(value) {
