@@ -15,8 +15,9 @@ const AppError = require('./utils/appError');
 const gradeRouter = require('./modules/grade/routes');
 const classRouter = require('./modules/class/routes');
 const userRouter = require('./modules/user/routes');
-const semesterRouter = require('./modules/semester/routers');
-const tuitionRouter = require('./modules/tuition/router')
+const semesterRouter = require('./modules/semester/routes');
+const tuitionRouter = require('./modules/tuition/routes')
+const subjectRouter = require('./modules/subject/routes')
 
 const dummyRouter = require('./modules/dummy/routes');
 
@@ -95,6 +96,7 @@ app.use(`${prefix}/classes`, classRouter);
 app.use(`${prefix}/users`, userRouter);
 app.use(`${prefix}/semesters`, semesterRouter);
 app.use(`${prefix}/tuitions`, tuitionRouter);
+app.use(`${prefix}/subjects`, subjectRouter);
 app.use(`${prefix}/dummy`, dummyRouter);
 
 
