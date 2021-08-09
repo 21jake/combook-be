@@ -6,6 +6,11 @@ const classSchema = new mongoose.Schema({
     ref: 'Grade',
     required: [true, 'Class must belong to a grade'],
   },
+  teacher_in_charge: {
+    type: mongoose.Schema.ObjectId,
+    ref: 'User',
+    required: [true, 'Class must have a teacher in charge'],
+  },
   name: {
     type: String,
     validate: {
@@ -25,6 +30,9 @@ const classSchema = new mongoose.Schema({
 classSchema.pre(/^find/, function(next) {
   this.populate({
     path: 'grade',
+    select: 'name',
+  }).populate({
+  path: 'teacher_in_charge',
     select: 'name',
   });
   next();

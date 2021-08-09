@@ -35,6 +35,10 @@ const userSchema = new mongoose.Schema(
       required: [true, 'passwordConfirm field is required'],
       validate: [confirmPasswordValidator, `password doesn't match`],
     },
+    subject: {
+      type: mongoose.Schema.ObjectId,
+      ref: 'Subject',
+    },
     passwordChangedAt: Date,
     passwordResetToken: String,
     passwordResetExpires: Date,
@@ -90,6 +94,10 @@ userSchema.pre('save', async function(next) {
 
 userSchema.pre(/^find/, async function(next) {
   this.find({ active: { $ne: false } });
+  this.populate({
+    path: 'subject',
+    select: 'name',
+  });
   next();
 });
 
