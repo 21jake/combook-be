@@ -6,7 +6,7 @@ const removeEntity = factory.removeEntity(Semester);
 
 const getEntities = factory.getEntities(Semester);
 
-const getEntity = factory.getEntity(Semester, 'semesters');
+const getEntity = factory.getEntity(Semester);
 
 const createEntity = factory.createEntity(Semester);
 

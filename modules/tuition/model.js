@@ -16,10 +16,6 @@ const tuitionSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
-  },
-  {
-    toJSON: { virtuals: true },
-    toObject: { virtuals: true },
   }
 );
 
@@ -27,12 +23,8 @@ tuitionSchema.pre(/^find/, function(next) {
   this.populate({
     path: 'semester',
     select: 'name',
-  });
-  next();
-});
-
-tuitionSchema.pre(/^find/, function(next) {
-  this.populate({
+  })
+  .populate({
     path: 'user',
     select: 'name',
   });
