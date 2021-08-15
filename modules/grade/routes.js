@@ -1,4 +1,4 @@
-const router = require('express').Router({ mergeParams: true });
+const router = require('express').Router();
 
 // const authenticate = require('../../middlewares/authenticate');
 // const checkRoles = require('../../middlewares/checkRoles');

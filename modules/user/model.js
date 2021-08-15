@@ -13,9 +13,9 @@ const userSchema = new mongoose.Schema(
     role: {
       type: String,
       enum: {
-        values: ['admin', 'teacher', 'parent'],
+        values: ['admin', 'teacher', 'student'],
       },
-      default: 'parent',
+      default: 'student',
     },
     email: {
       type: String,
@@ -47,6 +47,11 @@ const userSchema = new mongoose.Schema(
       default: true,
       select: false,
     },
+    _class: {
+      type: mongoose.Schema.ObjectId,
+      ref: 'Class',
+      required: [ensureUsersBelongToClass, 'Student/Teacher must belong to a class'],
+    },
   },
   {
     toJSON: { virtuals: true },
@@ -64,6 +69,10 @@ userSchema.virtual('tuitions', {
 // IF UPDATE, USE SAVE()
 function confirmPasswordValidator(value) {
   return value === this.password;
+}
+
+function ensureUsersBelongToClass(value) {
+  return this.role === "teacher" || this.role === "student";
 }
 
 // DOCUMENT MIDDLEWARE: ONLY RUN WHEN save() OR create()

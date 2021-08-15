@@ -35,7 +35,7 @@ const sendTokenResponse = (res, token, code, user, req) => {
 };
 
 const signUp = catchAsyncError(async (req, res, next) => {
-  const { name, email, password, passwordConfirm, passwordChangedAt, role, subject } = req.body;
+  const { name, email, password, passwordConfirm, passwordChangedAt, role, subject, _class } = req.body;
   const user = await User.create({
     name,
     email,
@@ -43,7 +43,8 @@ const signUp = catchAsyncError(async (req, res, next) => {
     passwordConfirm,
     passwordChangedAt,
     role,
-    subject
+    subject,
+    _class
   });
 
   const url = `${req.protocol}://${req.get('host')}/me`;
