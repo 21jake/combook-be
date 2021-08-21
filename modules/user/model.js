@@ -38,6 +38,7 @@ const userSchema = new mongoose.Schema(
     subject: {
       type: mongoose.Schema.ObjectId,
       ref: 'Subject',
+      required: [ensureTeacherBelongToSubject, 'Teacher must belong to a subject'],
     },
     passwordChangedAt: Date,
     passwordResetToken: String,
@@ -50,7 +51,7 @@ const userSchema = new mongoose.Schema(
     _class: {
       type: mongoose.Schema.ObjectId,
       ref: 'Class',
-      required: [ensureUsersBelongToClass, 'Student/Teacher must belong to a class'],
+      required: [ensureStdBelongToClass, 'Student must belong to a class'],
     },
   },
   {
@@ -71,8 +72,12 @@ function confirmPasswordValidator(value) {
   return value === this.password;
 }
 
-function ensureUsersBelongToClass(value) {
-  return this.role === "teacher" || this.role === "student";
+function ensureStdBelongToClass(value) {
+  return this.role === "student";
+}
+
+function ensureTeacherBelongToSubject(value) {
+  return this.role === "teacher";
 }
 
 // DOCUMENT MIDDLEWARE: ONLY RUN WHEN save() OR create()
@@ -105,6 +110,9 @@ userSchema.pre(/^find/, async function(next) {
   this.find({ active: { $ne: false } });
   this.populate({
     path: 'subject',
+    select: 'name',
+  }).populate({
+    path: '_class',
     select: 'name',
   });
   next();

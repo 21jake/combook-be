@@ -14,7 +14,7 @@ const {
   verify,
 } = require('./authentication');
 
-const { getEntities, removeEntity, getEntity } = require('./controller');
+const { getEntities, removeEntity, getEntity, updateEntity } = require('./controller');
 const { bindUserIdToReqParams } = require('./middlewares');
 
 // Only admin can create new account
@@ -34,6 +34,7 @@ router.route('/').get(checkRoles('admin'), getEntities);
 router
   .route('/:_id')
   .delete(checkRoles('admin'), removeEntity)
+  .patch(checkRoles('admin'), updateEntity)
   .get(getEntity);
 
 router.patch('/update-password', updatePassword);
