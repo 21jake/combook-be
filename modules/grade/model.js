@@ -5,10 +5,10 @@ const gradeSchema = new mongoose.Schema(
     name: {
       type: String,
       enum: {
-        values: ['Khối 6', 'Khối 7', 'Khối 8', 'Khối 9', 'Khối 10', 'Khối 11', 'Khối 12'],
+        values: ['Khối 10', 'Khối 11', 'Khối 12'],
       },
       required: [true, 'name field is required'],
-    },
+    }
   },
   {
     toJSON: { virtuals: true },

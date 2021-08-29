@@ -12,7 +12,7 @@ const classSchema = new mongoose.Schema(
       validate: {
         validator: function(value) {
           // Only when creating a new document
-          const regex = /[0-1][0-9][ABC]/g;
+          const regex = /[0-1][0-2][ABC]/g;
           return regex.test(value);
         },
         message: 'Invalid name for class',
