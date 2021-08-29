@@ -12,6 +12,11 @@ const semesterSchema = new mongoose.Schema(
       },
       required: [true, 'name field is required'],
     },
+    grade: {
+      type: mongoose.Schema.ObjectId,
+      ref: 'Grade',
+      required: [true, 'Semester must belong to a Grade'],
+    },
     fee: {
       type: Number,
       required: [true, 'fee field is required'],
@@ -27,6 +32,14 @@ semesterSchema.virtual('tuitions', {
   ref: 'Tuition',
   foreignField: 'semester',
   localField: '_id',
+});
+
+semesterSchema.pre(/^find/, function(next) {
+  this.populate({
+    path: 'grade',
+    select: 'name',
+  });
+  next();
 });
 
 const Semester = mongoose.model('Semester', semesterSchema);
