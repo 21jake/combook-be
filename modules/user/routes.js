@@ -12,14 +12,16 @@ const {
   deactivate,
   logout,
   verify,
+  generateResultRecords
 } = require('./authentication');
 
 const { getEntities, removeEntity, getEntity, updateEntity } = require('./controller');
 const { bindUserIdToReqParams } = require('./middlewares');
 
 // Only admin can create new account
-router.post('/sign-up', authenticate, checkRoles('admin'), signUp);
+router.post('/sign-up', authenticate, checkRoles('admin'), signUp, generateResultRecords);
 router.get('/verify', authenticate, verify);
+
 router.post('/login', login);
 router.get('/logout', authenticate, logout);
 router.post('/forgot-password', forgotPassword);

@@ -5,6 +5,10 @@ const Email = require('../../utils/email');
 const filterFields = require('../../utils/filterFields');
 const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
+const Subject = require('../subject/model');
+const Semester = require('../semester/model');
+const Result = require('../academic-result/model');
+const APIFeatures = require('../../utils/apiFeatures');
 
 const { JWT_SECRET, JWT_EXPIRATION, JWT_COOKIE_EXPIRATION, NODE_ENV } = process.env;
 const signToken = id => {
@@ -35,7 +39,16 @@ const sendTokenResponse = (res, token, code, user, req) => {
 };
 
 const signUp = catchAsyncError(async (req, res, next) => {
-  const { name, email, password, passwordConfirm, passwordChangedAt, role, subject, _class } = req.body;
+  const {
+    name,
+    email,
+    password,
+    passwordConfirm,
+    passwordChangedAt,
+    role,
+    subject,
+    _class,
+  } = req.body;
   const user = await User.create({
     name,
     email,
@@ -44,7 +57,7 @@ const signUp = catchAsyncError(async (req, res, next) => {
     passwordChangedAt,
     role,
     subject,
-    _class
+    _class,
   });
 
   const url = `${req.protocol}://${req.get('host')}/me`;
@@ -52,6 +65,41 @@ const signUp = catchAsyncError(async (req, res, next) => {
 
   // const token = signToken(user._id);
   // sendTokenResponse(res, token, 201, user, req);
+  req.newUser = user;
+  next();
+});
+
+const resultPromise = (student, semester, subject) => {
+  return new Promise((resolve, reject) => {
+    Result.create({ student, semester, subject })
+      .then(res => resolve(res))
+      .catch(err => reject(err));
+  });
+};
+
+const generateResultRecords = catchAsyncError(async (req, res, next) => {
+  const { newUser: user } = req;
+
+  if (user.role !== 'student') {
+    return res.status(201).json({ success: true, data: { user } });
+  }
+
+  const subjectQuery = new APIFeatures(Subject.find(), undefined);
+  const semesterQuery = new APIFeatures(Semester.find(), undefined);
+
+  const subjects = (await subjectQuery.query).map(({ _id }) => _id);
+  const semesters = (await semesterQuery.query).map(({ _id }) => _id);
+
+  const resultPromises = [];
+
+  for (let i = 0; i < subjects.length; i++) {
+    for (let j = 0; j < semesters.length; j++) {
+      resultPromises.push(resultPromise(user.id, semesters[j], subjects[i]));
+    }
+  }
+
+  await Promise.all(resultPromises);
+
   res.status(201).json({ success: true, data: { user } });
 });
 
@@ -257,4 +305,5 @@ module.exports = {
   deactivate,
   logout,
   verify,
+  generateResultRecords,
 };
