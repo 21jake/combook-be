@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const authenticate = require('../../middlewares/authenticate');
-const { bindTchrSbjctToReqQuery } = require('./middlewares');
+const { bindTchrSbjctToReqQuery, bindStudntIdToReqQuery } = require('./middlewares');
 const checkRoles = require('../../middlewares/checkRoles');
 
 const {
@@ -11,11 +11,16 @@ const {
   removeEntity,
 } = require('./controller');
 
-router.use(authenticate, checkRoles("admin", "teacher"), bindTchrSbjctToReqQuery);
+router.use(authenticate, bindTchrSbjctToReqQuery, bindStudntIdToReqQuery);
 
 router
   .route('/')
-  .get(getEntities)
+  .get(getEntities);
+
+router.use(checkRoles("admin", "teacher"));
+
+router
+  .route('/')
   .post(createEntity);
 router
   .route('/:_id')

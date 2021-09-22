@@ -6,4 +6,10 @@ const bindTchrSbjctToReqQuery = catchAsyncError(async (req, res, next) => {
   next();
 });
 
-module.exports = { bindTchrSbjctToReqQuery };
+const bindStudntIdToReqQuery = catchAsyncError(async (req, res, next) => {
+  const { role, id } = req.user;
+  if (role === "student") req.query.student = id;
+  next();
+});
+
+module.exports = { bindTchrSbjctToReqQuery, bindStudntIdToReqQuery };
