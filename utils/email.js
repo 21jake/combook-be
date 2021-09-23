@@ -8,6 +8,7 @@ const {
   EMAIL_HOST,
   EMAIL_PORT,
   EMAIL_FROM,
+  APP_URL
 } = process.env;
 
 class Email {

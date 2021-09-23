@@ -1,7 +1,6 @@
 const ApplicationError = require('../utils/appError');
 
 const checkRoles = (...roles) => (req, res, next) => {
-  console.log(req.user);
   const { role } = req.user;
   if (!roles.includes(role)) {
     return next(

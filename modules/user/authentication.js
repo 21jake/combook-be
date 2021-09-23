@@ -60,7 +60,8 @@ const signUp = catchAsyncError(async (req, res, next) => {
     _class,
   });
 
-  const url = `${req.protocol}://${req.get('host')}/me`;
+  const url = `${req.protocol}://${req.get('host')}/#/info`;
+  console.log(url, 'url');
   await new Email(user, url).sendWelcome();
 
   // const token = signToken(user._id);
