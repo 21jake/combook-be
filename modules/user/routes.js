@@ -33,14 +33,16 @@ router.use(authenticate);
 router.route('/me').get(bindUserIdToReqParams, getEntity);
 router.route('/').get(checkRoles('admin'), getEntities);
 
+router.patch('/update-password', updatePassword);
+router.patch('/update-info', updateInfo);
+
 router
   .route('/:_id')
   .delete(checkRoles('admin'), removeEntity)
   .patch(checkRoles('admin'), updateEntity)
   .get(getEntity);
 
-router.patch('/update-password', updatePassword);
-router.patch('/update-info', updateInfo);
+
 router.patch('/deactivate', deactivate);
 
 module.exports = router;
