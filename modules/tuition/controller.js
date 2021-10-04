@@ -38,7 +38,7 @@ const getCheckoutSession = catchAsyncError(async (req, res, next) => {
         },
       ],
     });
-    const updateTuition=await tuition.save();
+    const updateTuition = await tuition.save();
 
     res.status(200).json({
       status: 'success',
