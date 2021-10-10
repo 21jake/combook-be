@@ -60,7 +60,7 @@ class Email {
   }
 
   async sendWelcome() {
-    await this.send('welcome', 'Welcome to E-Communication book!');
+    await this.send('welcome', 'Welcome to E-Communication Book!');
   }
   async sendPasswordReset() {
     await this.send('passwordReset', 'Your password token (valid for  10 minutes)!');
