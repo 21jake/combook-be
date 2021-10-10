@@ -21,6 +21,11 @@ const semesterSchema = new mongoose.Schema(
       type: Number,
       required: [true, 'fee field is required'],
     },
+    grade: {
+      type: mongoose.Schema.ObjectId,
+      ref: 'Grade',
+      required: [true, 'Tuition must belong to a semester'],
+    },
   },
   {
     toJSON: { virtuals: true },
@@ -28,10 +33,11 @@ const semesterSchema = new mongoose.Schema(
   }
 );
 
-semesterSchema.virtual('tuitions', {
-  ref: 'Tuition',
-  foreignField: 'semester',
-  localField: '_id',
+semesterSchema.pre(/^find/, function(next) {
+  this.find({ active: { $ne: false } });
+
+  this.populate('grade');
+  next();
 });
 
 semesterSchema.pre(/^find/, function(next) {

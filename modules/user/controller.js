@@ -10,5 +10,5 @@ module.exports = {
   getEntities,
   removeEntity,
   getEntity,
-  updateEntity
+  updateEntity,
 };

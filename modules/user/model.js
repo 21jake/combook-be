@@ -60,12 +60,11 @@ const userSchema = new mongoose.Schema(
   }
 );
 
-userSchema.virtual('tuitions', {
-  ref: 'Tuition',
-  foreignField: 'user',
+userSchema.virtual('members', {
+  ref: 'User',
+  foreignField: '_user',
   localField: '_id',
 });
-
 // ONLY WORKS ON CREATE() AND SAVE()
 // IF UPDATE, USE SAVE()
 function confirmPasswordValidator(value) {
@@ -73,11 +72,11 @@ function confirmPasswordValidator(value) {
 }
 
 function ensureStdBelongToClass(value) {
-  return this.role === "student";
+  return this.role === 'student';
 }
 
 function ensureTeacherBelongToSubject(value) {
-  return this.role === "teacher";
+  return this.role === 'teacher';
 }
 
 // DOCUMENT MIDDLEWARE: ONLY RUN WHEN save() OR create()

@@ -12,7 +12,7 @@ const {
   deactivate,
   logout,
   verify,
-  generateResultRecords
+  generateResultRecords,
 } = require('./authentication');
 
 const { getEntities, removeEntity, getEntity, updateEntity } = require('./controller');

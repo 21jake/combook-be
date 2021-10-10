@@ -1,9 +1,9 @@
+const { pickBy } = require('lodash');
 const catchAsyncError = require('../utils/catchAsyncError');
 const AppError = require('../utils/appError');
 const APIFeatures = require('../utils/apiFeatures');
-const { pickBy } = require('lodash');
 
-const removeEntity = (Model) =>
+const removeEntity = Model =>
   catchAsyncError(async (req, res, next) => {
     const { _id } = req.params;
     const document = await Model.findByIdAndDelete(_id);
@@ -14,7 +14,7 @@ const removeEntity = (Model) =>
     res.status(200).json({ success: true, _id });
   });
 
-const updateEntity = (Model) =>
+const updateEntity = Model =>
   catchAsyncError(async (req, res, next) => {
     const { _id } = req.params;
     const entity = await Model.findByIdAndUpdate(_id, req.body, {
@@ -46,7 +46,7 @@ const getEntity = (Model, populateOptions) =>
     res.status(200).json({ success: true, data: { entity } });
   });
 
-const getEntities = (Model) =>
+const getEntities = Model =>
   catchAsyncError(async (req, res, next) => {
     const fetchQuery = new APIFeatures(Model.find(), pickBy(req.query))
       .filter()
@@ -58,7 +58,7 @@ const getEntities = (Model) =>
     res.status(200).json({ success: true, data: { total: entities.length, entities } });
   });
 
-const createEntity = (Model) =>
+const createEntity = Model =>
   catchAsyncError(async (req, res, next) => {
     const entity = await Model.create(req.body);
     res.status(201).json({ success: true, data: { entity } });

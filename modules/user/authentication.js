@@ -1,10 +1,10 @@
+const jwt = require('jsonwebtoken');
+const crypto = require('crypto');
 const User = require('./model');
 const AppError = require('../../utils/appError');
 const catchAsyncError = require('../../utils/catchAsyncError');
 const Email = require('../../utils/email');
 const filterFields = require('../../utils/filterFields');
-const jwt = require('jsonwebtoken');
-const crypto = require('crypto');
 const Subject = require('../subject/model');
 const Semester = require('../semester/model');
 const Result = require('../academic-result/model');
@@ -162,6 +162,7 @@ const forgotPassword = catchAsyncError(async (req, res, next) => {
     );
   }
 });
+
 const resetPassword = catchAsyncError(async (req, res, next) => {
   // GET USER BASED ON THE TOKEN
   const { token } = req.params;
