@@ -2,32 +2,31 @@ const mongoose = require('mongoose');
 
 const tuitionSchema = new mongoose.Schema(
   {
-    semester: {
-      type: mongoose.Schema.ObjectId,
-      ref: 'Semester',
-      required: [true, 'Tuition must belong to a semester'],
-    },
     user: {
       type: mongoose.Schema.ObjectId,
       ref: 'User',
       required: [true, 'Tuition must belong to a user'],
     },
+    semester: {
+      type: mongoose.Schema.ObjectId,
+      ref: 'Semester',
+      required: [true, 'Tuition must belong to a semester'],
+    },
     isPaid: {
       type: Boolean,
       default: false,
     },
+  },
+  {
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true },
   }
 );
 
 tuitionSchema.pre(/^find/, function(next) {
-  this.populate({
-    path: 'semester',
-    select: 'name',
-  })
-  .populate({
-    path: 'user',
-    select: 'name',
-  });
+  this.find({ active: { $ne: false } });
+
+  this.populate('user').populate('semester');
   next();
 });
 

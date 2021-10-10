@@ -26,7 +26,6 @@ const classSchema = new mongoose.Schema(
   }
 );
 
-
 classSchema.virtual('members', {
   ref: 'User',
   foreignField: '_class',
@@ -41,8 +40,6 @@ classSchema.pre(/^find/, function(next) {
   });
   next();
 });
-
-
 
 const Class = mongoose.model('Class', classSchema);
 module.exports = Class;

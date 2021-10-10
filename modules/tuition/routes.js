@@ -9,6 +9,7 @@ const {
   createEntity,
   updateEntity,
   removeEntity,
+  getCheckoutSession,
 } = require('./controller');
 
 // router.use(authenticate);
@@ -25,5 +26,6 @@ router
   .get(getEntity)
   .delete(removeEntity)
   .patch(updateEntity);
+router.route('/checkout-session/:_id').get(getCheckoutSession);
 
 module.exports = router;
