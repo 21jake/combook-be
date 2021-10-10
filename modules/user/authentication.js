@@ -13,7 +13,7 @@ const signToken = id => {
   });
   return token;
 };
-
+ 
 const sendTokenResponse = (res, token, code, user, req) => {
   const cookieOptions = {
     // CONVERT DAY TO MILLISECOND
@@ -45,10 +45,15 @@ const signUp = catchAsyncError(async (req, res, next) => {
     role,
   });
 
-  const url = `${req.protocol}://${req.get('host')}/me`;
-  await new Email(user, url).sendWelcome();
+  // const url = `${req.protocol}://${req.get('host')}/me`;
+  
+  const baseUrl = NODE_ENV === "development" ?  "http://localhost:3000/#/init" : undefined;
+  const token = signToken(user._id);
 
-  // const token = signToken(user._id);
+  const url = `${baseUrl}?${token}`
+
+  await new Email(user, url).sendWelcome();
+    
   // sendTokenResponse(res, token, 201, user, req);
   res.status(201).json({ success: true, data: { user } });
 });
