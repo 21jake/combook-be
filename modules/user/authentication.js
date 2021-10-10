@@ -10,7 +10,7 @@ const Semester = require('../semester/model');
 const Result = require('../academic-result/model');
 const APIFeatures = require('../../utils/apiFeatures');
 
-const { JWT_SECRET, JWT_EXPIRATION, JWT_COOKIE_EXPIRATION, NODE_ENV } = process.env;
+const { JWT_SECRET, JWT_EXPIRATION, JWT_COOKIE_EXPIRATION, NODE_ENV, NEW_USER_PW, APP_URL_DEV } = process.env;
 const signToken = id => {
   const token = jwt.sign({ id }, JWT_SECRET, {
     expiresIn: JWT_EXPIRATION,
@@ -62,10 +62,9 @@ const signUp = catchAsyncError(async (req, res, next) => {
 
   // const url = `${req.protocol}://${req.get('host')}/me`;
   
-  const baseUrl = NODE_ENV === "development" ?  "http://localhost:3000/#/init" : undefined;
+  const baseUrl = NODE_ENV === "development" ?  APP_URL_DEV : undefined;
   const token = signToken(user._id);
-
-  const url = `${baseUrl}?${token}`
+  const url = `${req.protocol}://${baseUrl}/init?${token}`
 
   await new Email(user, url).sendWelcome();
     
