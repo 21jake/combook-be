@@ -3,7 +3,6 @@ const router = require('express').Router();
 // const authenticate = require('../../middlewares/authenticate');
 // const checkRoles = require('../../middlewares/checkRoles');
 const {
-  //   getCheckoutSession,
   getEntities,
   getEntity,
   createEntity,
